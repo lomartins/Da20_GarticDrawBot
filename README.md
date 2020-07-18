@@ -3,7 +3,7 @@
 &nbsp;
 &nbsp;
 
-#####Precisa do "geckodriver" ou "chromedriver" para acessar o navegador.
+##### Precisa do "geckodriver" ou "chromedriver" para acessar o navegador.
 
 ChromeDriver (Google Chrome):   https://chromedriver.chromium.org/downloads  
 GeckoDriver (Mozilla Firefox):  https://github.com/mozilla/geckodriver/releases  

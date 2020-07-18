@@ -4,13 +4,22 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from PIL import Image
+
 
 import random
 
 
 class WebDriver:
-    def __init__(self):
-        self.driver = webdriver.Firefox(executable_path='./geckodriver')
+    def __init__(self, driver='chrome'):
+        if driver == 'chrome':
+            self.driver = webdriver.Chrome(executable_path='./chromedriver')
+        elif driver == 'firefox':
+            self.driver = webdriver.Firefox(executable_path='./geckodriver')
+        else:
+            print('invalid driver')
+            exit()
+
         self.driver.maximize_window()
         self.action = ActionChains(self.driver)
 
@@ -27,7 +36,7 @@ class WebDriver:
         wait = WebDriverWait(self.driver, 10)
         try:
             exit_xpath = "/html/body/div/div[3]/div[2]/div[2]/button"
-            exit_btn = wait.until(ec.visibility_of_element_located((By.XPATH, exit_xpath)))
+            wait.until(ec.visibility_of_element_located((By.XPATH, exit_xpath)))
 
             self.driver.find_element_by_xpath('/html/body/div/div[3]/div[2]/div[1]').click()
         except NoSuchElementException:
@@ -49,4 +58,19 @@ class WebDriver:
             exit()
 
     def draw(self):
-        print(self.word)
+        act = self.action
+
+        canvas = self.driver.find_element_by_id('telaCanvas')
+        draw_start_x = -(canvas.size['width'] // 2) + 50
+        draw_start_y = -(canvas.size['height'] // 2) + 50
+
+        act.move_to_element(canvas)
+        act.click()
+        act.move_by_offset(draw_start_x, draw_start_y)
+        act.click()
+
+        for _ in range(50):
+            act.move_by_offset(4, 0)
+            act.click()
+
+        act.perform()
